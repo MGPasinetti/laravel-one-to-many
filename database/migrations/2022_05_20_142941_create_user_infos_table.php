@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UserInfos extends Migration
+class CreateUserInfosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,12 @@ class UserInfos extends Migration
      */
     public function up()
     {
-        //
+        Schema::create('user_infos', function (Blueprint $table) {
+            $table->id();
+            $table->string('phone');
+            $table->string('address')->nullable();
+            $table->string('avatar')->nullable();
+        });
     }
 
     /**
@@ -23,6 +28,6 @@ class UserInfos extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('user_infos');
     }
 }
