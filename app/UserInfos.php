@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserInfos extends Model
 {
+    public $timestamps = false;
+
     protected $fillable = [
         'phone', 'address', 'avatar',
     ];

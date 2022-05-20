@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Post;
 use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\Hash;
 
-class PostSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,10 +15,10 @@ class PostSeeder extends Seeder
     public function run(Faker $faker)
     {
         for ($i=0; $i < 100; $i++) {
-            Post::create([
-                'user_id'   => User::inRandomOrder()->first()->id,
-                'title'     => $faker->words(rand(2, 10), true),
-                'content'   => $faker->text(rand(200, 1000)),
+            User::create([
+                'name'      => $faker->phoneNumber(),
+                'email'     => $faker->address(),
+                'password'  => Hash::make('qwertys')
             ]);
         }
     }

@@ -18,6 +18,8 @@ class CreateUserInfosTable extends Migration
             $table->string('phone');
             $table->string('address')->nullable();
             $table->string('avatar')->nullable();
+
+            $table->foreignId('user_id')->constrained();
         });
     }
 
