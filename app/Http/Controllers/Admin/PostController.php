@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected $validationRules = [
+        'title'     => 'required|max:100',
+        'content'   => 'required'
+    ];
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +20,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        $posts = Post::paginate(50);
+
+        return view('admin.posts.index', compact('posts'));
     }
 
     /**
@@ -25,7 +32,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -36,7 +43,14 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate($this->validationRules, [
+            'title' => 'Inserisci un titolo',
+            'content' => 'Inserisci un contenuto',
+        ]);
+
+        $post = Post::create($request->all());
+
+        return redirect()->route('admin.posts.show', $post->id)->with('status', 'Completato con successo!');
     }
 
     /**
@@ -47,7 +61,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return view('admin.posts.show', [
+            'pageTitle' => $post->title,
+            'post'      => $post,
+        ]);
     }
 
     /**
@@ -58,7 +75,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -70,7 +87,11 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate($this->validationRules);
+
+        $post->update($request->all());
+
+        return redirect()->route('admin.posts.show', $post->id);
     }
 
     /**
@@ -81,6 +102,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+
+        return redirect()->route('admin.posts.index');
     }
 }
